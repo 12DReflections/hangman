@@ -1,3 +1,5 @@
+//Hangman Game programmed by Julian Wise following 'Programming in C with Ease'
+
 #include "stdio.h"
 #include "string.h"
 #include "stdlib.h"
@@ -23,7 +25,6 @@ int main(){
 	int numCorrect = 0;
 	int oldCorrect = 0;
 	
-	
 	int lengthOfWord = strlen(guessWords[randomIndex]);
 	
 	// Letter indexes are changed from 0 to 1 when letters are correctly guessed
@@ -45,7 +46,19 @@ int main(){
 	//Game Loop
 	while (numCorrect < lengthOfWord){
 		
-		printf("Number correct so far: %d\n", numCorrect); 
+		printf("\n\nNew Turn....\nHangman Word: ");
+		
+		for( loopIndex = 0; loopIndex < lengthOfWord; loopIndex++ ){
+			
+			if(letterGuessed[loopIndex] == 1) {
+				printf("%c", guessWords[randomIndex][loopIndex]);
+			} else {
+				printf("-");
+			}
+		}
+		
+		
+		printf("\n\nNumber correct so far: %d\n", numCorrect); 
 		printf("\nEnter a guess letter: ");
 		fgets(guess, 16, stdin);
 		
@@ -58,22 +71,41 @@ int main(){
 		
 		printf("\nLetter Entered: %c\n", letterEntered);
 		
+		oldCorrect = numCorrect; //Guess total comparison
+		
 		for( loopIndex = 0; loopIndex < lengthOfWord; loopIndex++){
 			
-			if( letterGuessed[loopIndex] == 1 ){
+			if( letterGuessed[loopIndex] == 1 ){ 
 				continue;
 			}
 		
 			if( letterEntered == guessWords[randomIndex][loopIndex]){
-				letterGuessed[loopIndex] = 1;
+				letterGuessed[loopIndex] = 1; //change in our array to 1, for guessed correctly
 				numCorrect++;
 			}
+		}
+		
+		//Test whether we guessed correctly.
+		if( oldCorrect == numCorrect){
+			numLives--;
+			printf("Sorry, wrong guess, \nLives = %d \n",numLives);
+			
+			if( numLives == 0 ) {
+				break;
+			}
+			
+		} else {
+			printf("\nYou guessed correctly!\n");
 		}
 		
 	} //while loop
 	
 	if( quit == 1 ) {
 		printf("\nThe user quit early\n");
+	} else if(numLives == 0) {
+		printf( "Sorry you lose, the word was: %s\n",guessWords[randomIndex]);
+	} else{
+		printf( "\n\nYou win you champ!\n");
 	}
 	
 	
