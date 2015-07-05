@@ -17,9 +17,8 @@ int main(){
 		"apple",
 	};
 	
-	//index for random word
-	int randomIndex = rand() % 6;
-	int loopIndex = 0;
+	int randomIndex = rand() % 6; //Translate the random number into the count of options we have
+	int loopIndex = 0; //the index where each of the words is
 	
 	int numLives = 5;
 	int numCorrect = 0;
